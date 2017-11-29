@@ -58,6 +58,7 @@ module.exports = Field.create({
 	componentWillUpdate (nextProps) {
 		// Reset the action state when the value changes
 		// TODO: We should add a check for a new item ID in the store
+		if(!this.props.value) return // Value is empty, do nothing
 		if (this.props.value.public_id !== nextProps.value.public_id) {
 			this.setState({
 				removeExisting: false,
@@ -80,11 +81,12 @@ module.exports = Field.create({
 		return this.hasExisting() || this.hasLocal();
 	},
 	getFilename () {
-		const { format, height, public_id, width } = this.props.value;
-
-		return this.state.userSelectedFile
-			? this.state.userSelectedFile.name
-			: `${public_id}.${format} (${width}×${height})`;
+		if (this.state.userSelectedFile) {
+			return this.state.userSelectedFile.name
+		} else {
+			const { format, height, public_id, width } = this.props.value;
+			return `${public_id}.${format} (${width}×${height})`;
+		}
 	},
 	getImageSource (height = 90) {
 		// TODO: This lets really wide images break the layout
