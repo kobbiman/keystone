@@ -58,12 +58,14 @@ module.exports = Field.create({
 	componentWillUpdate (nextProps) {
 		// Reset the action state when the value changes
 		// TODO: We should add a check for a new item ID in the store
-		if(!this.props.value) return // Value is empty, do nothing
+		// Return if no value
+    if (!this.props.value) return
 		if (this.props.value.public_id !== nextProps.value.public_id) {
-			this.setState({
+			this.setState(buildInitialState(nextProps));
+			/* this.setState({
 				removeExisting: false,
 				userSelectedFile: null,
-			});
+			}); */
 		}
 	},
 
