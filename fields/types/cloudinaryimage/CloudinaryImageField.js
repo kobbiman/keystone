@@ -54,7 +54,17 @@ module.exports = Field.create({
 	componentWillReceiveProps (nextProps) {
 		// console.log('CloudinaryImageField nextProps:', nextProps);
 	},
-	componentWillUpdate (nextProps) {
+
+	componentWillUpdate (nextProps) { 
+		// Show the new filename when it's finished uploading 
+		if(this.props.value){ 
+			if (this.props.value.filename !== nextProps.value.filename) { 
+				this.setState(buildInitialState(nextProps)); 
+			} 
+		} 
+	},
+
+	/* componentWillUpdate (nextProps) {
 		// Reset the action state when the value changes
 		// TODO: We should add a check for a new item ID in the store
 		if (this.props.value.public_id !== nextProps.value.public_id) {
@@ -63,7 +73,7 @@ module.exports = Field.create({
 				userSelectedFile: null,
 			});
 		}
-	},
+	}, */
 
 	// ==============================
 	// HELPERS
