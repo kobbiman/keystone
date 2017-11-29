@@ -81,12 +81,11 @@ module.exports = Field.create({
 		return this.hasExisting() || this.hasLocal();
 	},
 	getFilename () {
-		if (this.state.userSelectedFile) {
-			return this.state.userSelectedFile.name
-		} else {
-			const { format, height, public_id, width } = this.props.value;
-			return `${public_id}.${format} (${width}×${height})`;
-		}
+		const { format, height, public_id, width } = this.props.value || [];
+		
+		return this.state.userSelectedFile
+			? this.state.userSelectedFile.name
+			: `${public_id}.${format} (${width}×${height})`;
 	},
 	getImageSource (height = 90) {
 		// TODO: This lets really wide images break the layout
